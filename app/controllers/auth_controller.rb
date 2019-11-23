@@ -5,7 +5,7 @@ class AuthController < ApplicationController
         # byebug
         if user && user.authenticate(user_params[:password])
             payload = {user_id: user.id}
-            token = JWT.encode(payload, "brian", "HS256")
+            token = JWT.encode(payload, secret, "HS256")
             render json: {user: user, token: token}
         else
             render json: {error: "wrong username or password"}
@@ -14,12 +14,17 @@ class AuthController < ApplicationController
 
     def persist
         encoded_token = request.headers['Authorization'].split(' ')[1]
-        decoded_token = JWT.decode(encoded_token, "brian" , true, {algorithm: 'HS256'})
+        decoded_token = JWT.decode(encoded_token, secret , true, {algorithm: 'HS256'})
+        
         user_id = decoded_token[0]['user_id']
         user = User.find(user_id)
         if user 
             render json: user
         end
+    end
+
+    def secret
+        ENV["JWT_SECRET_KEY"]
     end
 
     private
