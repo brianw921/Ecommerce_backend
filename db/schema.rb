@@ -16,12 +16,14 @@ ActiveRecord::Schema.define(version: 2019_11_21_200351) do
   enable_extension "plpgsql"
 
   create_table "items", force: :cascade do |t|
-    t.string "name"
-    t.float "price"
-    t.string "description"
-    t.string "image"
+    t.string "product_full_name"
+    t.float "original_price"
     t.string "category"
-    t.integer "quantity"
+    t.string "gender"
+    t.integer "purchase_limit"
+    t.string "description_headline"
+    t.string "description_bullets", default: [], array: true
+    t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -47,24 +47,74 @@
 # order_items1 = OrderItem.create(item_id: item1.id, order_id: order1.id)
 # order_items2 = OrderItem.create(item_id: item1.id, order_id: order2.id)
 require 'rest-client'
-require('dotenv').config()
+require 'dotenv'
+
+# response = RestClient::Request.execute(
+#   method: :get,
+#   url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list?lang=en-US&limit=1000&url=men',
+#   headers: {"X-RapidAPI-Host": "apidojo-adidas-v1.p.rapidapi.com",
+#     "x-rapidapi-key": ENV["NYT_API_KEY"]}
+# )
+
+# product_data = JSON.parse(response)["_embedded"]["products"]
+
+# product_data.each do |dataInfo|
+  
+#     Item.create(
+#     product_full_name: dataInfo["product_name"],
+#     original_price: dataInfo["original_price"],
+#     category: dataInfo["category"],
+#     gender: dataInfo["gender"],
+#     purchase_limit: dataInfo["purchase_limit"],
+#     description_headline: dataInfo["description_headline"],
+#     description_bullets: dataInfo["description_bullets"]
+#   )
+# end
 
 response = RestClient::Request.execute(
   method: :get,
-  url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list',
-  headers: ENV['NYT_API_KEY']
+  url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list?lang=en-US&limit=1000&url=women',
+  headers: {"X-RapidAPI-Host": "apidojo-adidas-v1.p.rapidapi.com",
+    "x-rapidapi-key": ENV["NYT_API_KEY"]}
 )
 
 product_data = JSON.parse(response)["_embedded"]["products"]
 
-product_data.each do |dataType, dataInfo|
-  product = Item.create(
-   product_id: dataInfo["product_id"],
-   model_number: dataInfo["model_number"],
-   product_name: dataInfo["product_name"],
-   product_full_name: dataInfo["product_full_name"],
-   subtitle: dataInfo["subtitle"],
-   original_price: dataInfo["original_price"]
+product_data.each do |dataInfo|
+
+    Item.create(
+    product_full_name: dataInfo["product_full_name"],
+    original_price: dataInfo["original_price"],
+    category: dataInfo["category"],
+    gender: dataInfo["gender"],
+    purchase_limit: dataInfo["purchase_limit"],
+    description_headline: dataInfo["description_headline"],
+    description_bullets: dataInfo["description_bullets"],
+   
+    image: dataInfo["_links"]["image_large"]["href"]
   )
 end
-byebug
+
+
+response = RestClient::Request.execute(
+  method: :get,
+  url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list?lang=en-US&limit=1000&url=kids',
+  headers: {"X-RapidAPI-Host": "apidojo-adidas-v1.p.rapidapi.com",
+    "x-rapidapi-key": ENV["NYT_API_KEY"]}
+)
+
+product_data = JSON.parse(response)["_embedded"]["products"]
+
+product_data.each do |dataInfo|
+  
+    Item.create(
+    product_full_name: dataInfo["product_name"],
+    original_price: dataInfo["original_price"],
+    category: dataInfo["category"],
+    gender: dataInfo["gender"],
+    purchase_limit: dataInfo["purchase_limit"],
+    description_headline: dataInfo["description_headline"],
+    description_bullets: dataInfo["description_bullets"],
+    image: dataInfo["_links"]["image_large"]["href"]
+  )
+end
