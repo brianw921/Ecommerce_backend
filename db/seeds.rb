@@ -5,14 +5,14 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-# OrderItem.destroy_all
-# Item.destroy_all
-# Order.destroy_all
-# User.destroy_all
+OrderItem.destroy_all
+Item.destroy_all
+Order.destroy_all
+User.destroy_all
 
-# ActiveRecord::Base.connection.tables.each do |t|
-#   ActiveRecord::Base.connection.reset_pk_sequence!(t)
-# end
+ActiveRecord::Base.connection.tables.each do |t|
+  ActiveRecord::Base.connection.reset_pk_sequence!(t)
+end
 # #MENS Shoes
 #  user1 = User.create(username: "Rei", password: "aye")
 #  item1 = Item.create(name: "ULTRABOOST SHOES", price: 180, category: "men", quantity: 20, description: "Built for comfort and performance. These men's running shoes have a breathable knit upper with ventilation in key sweat zones to help keep feet cool and dry. A flexible outsole moves in harmony with responsive cushioning for a smooth, energy-filled ride.", image: "https://assets.adidas.com/images/w_840,h_840,f_auto,q_auto:sensitive,fl_lossy/98a870193e9341b0af19aa76011ef0b8_9366/Ultraboost_Shoes_Black_G54001_01_standard.jpg")
@@ -49,31 +49,9 @@
 require 'rest-client'
 require 'dotenv'
 
-# response = RestClient::Request.execute(
-#   method: :get,
-#   url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list?lang=en-US&limit=1000&url=men',
-#   headers: {"X-RapidAPI-Host": "apidojo-adidas-v1.p.rapidapi.com",
-#     "x-rapidapi-key": ENV["NYT_API_KEY"]}
-# )
-
-# product_data = JSON.parse(response)["_embedded"]["products"]
-
-# product_data.each do |dataInfo|
-  
-#     Item.create(
-#     product_full_name: dataInfo["product_name"],
-#     original_price: dataInfo["original_price"],
-#     category: dataInfo["category"],
-#     gender: dataInfo["gender"],
-#     purchase_limit: dataInfo["purchase_limit"],
-#     description_headline: dataInfo["description_headline"],
-#     description_bullets: dataInfo["description_bullets"]
-#   )
-# end
-
 response = RestClient::Request.execute(
   method: :get,
-  url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list?lang=en-US&limit=1000&url=women',
+  url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list?lang=en-US&limit=1000&url=men',
   headers: {"X-RapidAPI-Host": "apidojo-adidas-v1.p.rapidapi.com",
     "x-rapidapi-key": ENV["NYT_API_KEY"]}
 )
@@ -81,6 +59,29 @@ response = RestClient::Request.execute(
 product_data = JSON.parse(response)["_embedded"]["products"]
 
 product_data.each do |dataInfo|
+  
+    Item.create(
+    product_full_name: dataInfo["product_name"],
+    original_price: dataInfo["original_price"],
+    category: dataInfo["category"],
+    gender: dataInfo["gender"],
+    purchase_limit: dataInfo["purchase_limit"],
+    description_headline: dataInfo["description_headline"],
+    description_bullets: dataInfo["description_bullets"],
+    image: dataInfo["_links"]["image_large"]["href"]
+  )
+end
+
+response1 = RestClient::Request.execute(
+  method: :get,
+  url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list?lang=en-US&limit=1000&url=women',
+  headers: {"X-RapidAPI-Host": "apidojo-adidas-v1.p.rapidapi.com",
+    "x-rapidapi-key": ENV["NYT_API_KEY"]}
+)
+
+product_data1 = JSON.parse(response1)["_embedded"]["products"]
+
+product_data1.each do |dataInfo|
 
     Item.create(
     product_full_name: dataInfo["product_full_name"],
@@ -90,22 +91,21 @@ product_data.each do |dataInfo|
     purchase_limit: dataInfo["purchase_limit"],
     description_headline: dataInfo["description_headline"],
     description_bullets: dataInfo["description_bullets"],
-   
     image: dataInfo["_links"]["image_large"]["href"]
   )
 end
 
 
-response = RestClient::Request.execute(
+response2 = RestClient::Request.execute(
   method: :get,
   url: 'https://apidojo-adidas-v1.p.rapidapi.com/products/v2/list?lang=en-US&limit=1000&url=kids',
   headers: {"X-RapidAPI-Host": "apidojo-adidas-v1.p.rapidapi.com",
     "x-rapidapi-key": ENV["NYT_API_KEY"]}
 )
 
-product_data = JSON.parse(response)["_embedded"]["products"]
+product_data2 = JSON.parse(response2)["_embedded"]["products"]
 
-product_data.each do |dataInfo|
+product_data2.each do |dataInfo|
   
     Item.create(
     product_full_name: dataInfo["product_name"],
