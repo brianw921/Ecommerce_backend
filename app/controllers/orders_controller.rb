@@ -9,4 +9,25 @@ class OrdersController < ApplicationController
         order = Order.find(params[:id])
         render json: order, include: "**"
     end
+
+    def create
+        
+        order = Order.create
+        order_params.each do |order|
+            item = Item.find(order[:id])
+            orderItems = OrderItem.create(order_id: order[:id], item_id: item.id )
+        end
+        render json: order
+       
+    end
+    # orders_param[:products].each do |product_id|
+            
+    #         product = Product.find(product_id)
+    #         # orderProduct = OrderProduct.create(order_id: order.id, product_id: product.id)
+
+    private
+
+    def order_params
+        params.require(:order)
+    end
 end
