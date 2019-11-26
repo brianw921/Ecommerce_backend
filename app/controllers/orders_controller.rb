@@ -13,8 +13,9 @@ class OrdersController < ApplicationController
     def create
         
         order = Order.create
-        order_params.each do |order|
-            item = Item.find(order[:id])
+        
+        params[:order][:cart].each do |item_in_cart|
+            item = Item.find(item_in_cart[:id])
             orderItems = OrderItem.create(order_id: order[:id], item_id: item.id )
         end
         render json: order
@@ -27,7 +28,7 @@ class OrdersController < ApplicationController
 
     private
 
-    def order_params
-        params.require(:order)
-    end
+    # def order_params
+    #     params.require(:order).permit(:cart)
+    # end
 end
