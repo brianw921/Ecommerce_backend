@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
     def index 
-        user = User.all
-        render json: user, include: "**"
+        users = User.all
+        render json: users, include: "**"
     end
 
     def show 
@@ -13,9 +13,11 @@ class UsersController < ApplicationController
     def create
         user = User.create(user_params)
         if user.valid?
+            user.orders.create(cart: true)
+            # user.create_new_order
             payload = {user_id: user.id}
             token = JWT.encode(payload, "brian", "HS256")
-            render json: {user: user, include: "**", token: token}
+            render json: {user: UserSerializer.new(user), include: "**", token: token}
         else
             render json: {error: 'failed to create user'}
         end

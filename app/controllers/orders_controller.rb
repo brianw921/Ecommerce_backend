@@ -12,7 +12,7 @@ class OrdersController < ApplicationController
 
     def create
         
-        order = Order.create
+        order = Order.create(cart: false)
         
         params[:order][:cart].each do |item_in_cart|
             item = Item.find(item_in_cart[:id])
@@ -21,12 +21,9 @@ class OrdersController < ApplicationController
         render json: order
        
     end
-    # orders_param[:products].each do |product_id|
-            
-    #         product = Product.find(product_id)
-    #         # orderProduct = OrderProduct.create(order_id: order.id, product_id: product.id)
 
-    private
+ 
+   private
 
     # def order_params
     #     params.require(:order).permit(:cart)
