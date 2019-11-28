@@ -11,13 +11,16 @@ class OrdersController < ApplicationController
     end
 
     def create
-        
-        order = Order.create(cart: false)
-        
+        encoded_token = request.headers['Authorization'].split(' ')[1]
+        token = decoded_token = JWT.decode(encoded_token, secret , true, {algorithm: 'HS256'})
+        user_id = token[0]['user_id']
+        order = Order.create(cart: false, user_id: user_id)
+    
         params[:order][:cart].each do |item_in_cart|
             item = Item.find(item_in_cart[:id])
             orderItems = OrderItem.create(order_id: order[:id], item_id: item.id )
         end
+        
         render json: order
        
     end

@@ -4,7 +4,15 @@ class OrderItemsController < ApplicationController
     end
     
     def create
-        OrderItem.create(order_item_params)
+        order_item = OrderItem.create(order_item_params)
+        render json: order_item.order
+    end
+
+    def destroy
+        order_item = OrderItem.find(params[:id])
+        order_item.destroy 
+        render json: order_item
+
     end
 
     private
