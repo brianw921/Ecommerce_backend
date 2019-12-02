@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_11_21_200351) do
 
   create_table "orders", force: :cascade do |t|
     t.boolean "cart"
+    t.float "total_price"
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
