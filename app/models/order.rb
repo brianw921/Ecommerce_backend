@@ -9,7 +9,6 @@ class Order < ApplicationRecord
             total_price += item.original_price
         end
         return total_price
-        byebug
         
     end
 end
