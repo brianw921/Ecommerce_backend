@@ -5,7 +5,7 @@ class User < ApplicationRecord
     has_many :order_items, through: :orders
 
     def cart
-        order = self.orders.find_by(cart: true)
+        order = self.orders.find_by(cart: true) || Order.create(cart: true, user: self)
         OrderSerializer.new(order)
     end
 

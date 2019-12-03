@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
     def index 
         users = User.all
-        render json: users, include: "**"
+        render json: users, each_serializer: UserSerializer, include: "**"
     end
 
     def show 
@@ -27,6 +27,6 @@ class UsersController < ApplicationController
     private 
     
     def user_params
-        params.permit(:username, :password)
+        params.permit(:username, :password, :name)
     end
 end

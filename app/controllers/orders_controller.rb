@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
         encoded_token = request.headers['Authorization'].split(' ')[1]
         token = decoded_token = JWT.decode(encoded_token, secret , true, {algorithm: 'HS256'})
         user_id = token[0]['user_id']
-        byebug
+        
         cur_user = User.find_by(id: user_id)
         cur_user_orders = cur_user.orders
         cart = cur_user_orders.find_by(cart: true)
