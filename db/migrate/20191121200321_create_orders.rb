@@ -4,6 +4,7 @@ class CreateOrders < ActiveRecord::Migration[6.0]
       t.boolean :cart
       t.float :total_price
       t.integer :user_id
+      
 
       t.timestamps
     end

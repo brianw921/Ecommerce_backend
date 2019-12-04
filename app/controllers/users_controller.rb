@@ -21,6 +21,7 @@ class UsersController < ApplicationController
         else
             render json: {error: 'failed to create user'}
         end
+        # debugger
     end
 
 
