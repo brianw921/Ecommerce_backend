@@ -11,5 +11,8 @@ class Order < ApplicationRecord
         return total_price
     end
 
+    def datetime
+        self.updated_at.to_s.split(" ")[0]
+    end
     
 end

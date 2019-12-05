@@ -21,7 +21,8 @@ class OrdersController < ApplicationController
         cart = cur_user_orders.find_by(cart: true)
         cart.update(cart: false)
 
-        new_cart = Order.create(cart: true, user_id: user_id, datetime: Date.to_s.split("T")[0])
+        new_cart = Order.create(cart: true, user_id: user_id, datetime: date_time)
+        
         
         # params[:order][:cart].each do |item_in_cart|
         #     item = Item.find(item_in_cart[:id])
