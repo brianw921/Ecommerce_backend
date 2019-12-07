@@ -1,3 +1,4 @@
+require "Date"
 class OrdersController < ApplicationController
 
     def index 
@@ -18,10 +19,10 @@ class OrdersController < ApplicationController
         
         cur_user = User.find_by(id: user_id)
         cur_user_orders = cur_user.orders
-        cart = cur_user_orders.find_by(cart: true)
-        cart.update(cart: false)
+        current_order = cur_user_orders.find_by(cart: true)
+        current_order.update(cart: false, datetime: Date.today.to_datetime.to_s.split("T")[0])
 
-        new_cart = Order.create(cart: true, user_id: user_id, datetime: date_time)
+        new_cart = Order.create(cart: true, user_id: user_id, datetime: Date.today.to_datetime.to_s.split("T")[0])
         
         
         # params[:order][:cart].each do |item_in_cart|
