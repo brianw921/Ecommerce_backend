@@ -8,7 +8,8 @@ class AuthController < ApplicationController
             token = JWT.encode(payload, secret, "HS256")
             render json: {user: UserSerializer.new(user) , token: token}
         else
-            render json: {error: "wrong username or password"}
+            render json: {error: "Wrong Username or Password"}
+            
         end
     end
 

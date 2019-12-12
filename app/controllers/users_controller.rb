@@ -19,9 +19,9 @@ class UsersController < ApplicationController
             token = JWT.encode(payload, "brian", "HS256")
             render json: {user: UserSerializer.new(user), include: "**", token: token}
         else
-            render json: {error: 'failed to create user'}
+            render json: {error: user.errors.full_messages} , status: :unprocessable_entity
         end
-        # debugger
+       
     end
 
 
