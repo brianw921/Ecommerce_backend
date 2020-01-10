@@ -80,7 +80,6 @@ test:
 #
 production:
   <<: *default
-  adapter: postgresql
   database: ecommerce_backend_production
   username: ecommerce_backend
   password: <%= ENV['ECOMMERCE_BACKEND_DATABASE_PASSWORD'] %>
